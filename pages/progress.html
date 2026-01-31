@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress - CogniTrain</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .history-game {
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+        .history-score {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        .history-date {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .history-diff {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+        .history-diff.easy { background: #22c55e33; color: #22c55e; }
+        .history-diff.medium { background: #f9731633; color: #f97316; }
+        .history-diff.hard { background: #ef444433; color: #ef4444; }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+        .reset-btn {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        .reset-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <a href="../index.html" class="back-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <h1 class="page-title">Your Progress</h1>
+        </header>
+
+        <!-- Overview Stats -->
+        <section class="progress-section">
+            <h3>Overview</h3>
+            <div class="progress-grid">
+                <div class="progress-item">
+                    <span class="progress-item-label">Current Streak</span>
+                    <span class="progress-item-value" id="streak">0</span>
+                </div>
+                <div class="progress-item">
+                    <span class="progress-item-label">Total Exercises</span>
+                    <span class="progress-item-value" id="total">0</span>
+                </div>
+                <div class="progress-item">
+                    <span class="progress-item-label">Today</span>
+                    <span class="progress-item-value" id="today">0</span>
+                </div>
+                <div class="progress-item">
+                    <span class="progress-item-label">This Week</span>
+                    <span class="progress-item-value" id="week">0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Stats -->
+        <section class="progress-section">
+            <h3>Best Scores</h3>
+            <div class="progress-grid" id="best-scores">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Recent History -->
+        <section class="progress-section">
+            <h3>Recent Activity</h3>
+            <div id="history">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Reset Button -->
+        <div style="text-align: center;">
+            <button class="reset-btn" onclick="resetProgress()">Reset All Progress</button>
+        </div>
+    </div>
+
+    <script src="../js/storage.js"></script>
+    <script>
+        // Game names for display
+        const gameNames = {
+            'memory-match': 'Memory Match',
+            'sequence-recall': 'Sequence Recall',
+            'stroop-test': 'Stroop Test',
+            'pattern-puzzle': 'Pattern Puzzle'
+        };
+
+        // Load progress data
+        function loadProgress() {
+            // Overview stats
+            document.getElementById('streak').textContent = Storage.getStreak();
+            document.getElementById('total').textContent = Storage.getTotalCount();
+            document.getElementById('today').textContent = Storage.getTodayCount();
+
+            // This week count
+            const recentScores = Storage.getRecentScores(7);
+            let weekCount = 0;
+            for (const date in recentScores) {
+                weekCount += recentScores[date].length;
+            }
+            document.getElementById('week').textContent = weekCount;
+
+            // Best scores
+            const bestScoresEl = document.getElementById('best-scores');
+            bestScoresEl.innerHTML = '';
+
+            for (const gameId in gameNames) {
+                const best = Storage.getBestScore(gameId);
+                const item = document.createElement('div');
+                item.className = 'progress-item';
+                item.innerHTML = `
+                    <span class="progress-item-label">${gameNames[gameId]}</span>
+                    <span class="progress-item-value">${best}</span>
+                `;
+                bestScoresEl.appendChild(item);
+            }
+
+            // Recent history
+            const historyEl = document.getElementById('history');
+            const allScores = Storage.getAllScores();
+            const recentList = [];
+
+            for (const game in allScores) {
+                for (const score of allScores[game]) {
+                    recentList.push({ ...score, game });
+                }
+            }
+
+            // Sort by timestamp (newest first)
+            recentList.sort((a, b) => b.timestamp - a.timestamp);
+
+            // Show last 20
+            const recent = recentList.slice(0, 20);
+
+            if (recent.length === 0) {
+                historyEl.innerHTML = '<div class="empty-state">No exercises completed yet.<br>Start training to see your history!</div>';
+            } else {
+                historyEl.innerHTML = recent.map(item => `
+                    <div class="history-item">
+                        <div>
+                            <span class="history-game">${gameNames[item.game] || item.game}</span>
+                            <span class="history-diff ${item.difficulty}">${item.difficulty}</span>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="history-score">${item.score}</span>
+                            <div class="history-date">${formatDate(item.date)}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Format date for display
+        function formatDate(dateStr) {
+            const today = new Date().toISOString().split('T')[0];
+            const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+            if (dateStr === today) return 'Today';
+            if (dateStr === yesterday) return 'Yesterday';
+
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        // Reset all progress
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                Storage.clearAll();
+                loadProgress();
+            }
+        }
+
+        // Load on page ready
+        document.addEventListener('DOMContentLoaded', loadProgress);
+    </script>
+</body>
+</html>

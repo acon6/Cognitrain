@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attention Games - CogniTrain</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <a href="../index.html" class="back-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <h1 class="page-title">Attention Training</h1>
+        </header>
+
+        <!-- Game Selection -->
+        <section class="game-list" id="game-selection">
+            <div class="game-item" onclick="showGame('stroop-test')">
+                <div class="game-info">
+                    <h3>Stroop Test</h3>
+                    <p>Name the color, ignore the word</p>
+                </div>
+                <button class="play-btn">Play</button>
+            </div>
+        </section>
+
+        <!-- Stroop Test Game -->
+        <section class="game-container" id="stroop-test-game" style="display: none;">
+            <div class="game-header">
+                <div class="game-stat">
+                    <span class="game-stat-value" id="st-correct">0</span>
+                    <span class="game-stat-label">Correct</span>
+                </div>
+                <div class="game-stat">
+                    <span class="game-stat-value" id="st-round">0/20</span>
+                    <span class="game-stat-label">Round</span>
+                </div>
+                <div class="game-stat">
+                    <span class="game-stat-value" id="st-time">30</span>
+                    <span class="game-stat-label">Seconds</span>
+                </div>
+            </div>
+
+            <div class="difficulty-selector" id="st-difficulty">
+                <button class="diff-btn active" data-diff="easy">Easy</button>
+                <button class="diff-btn" data-diff="medium">Medium</button>
+                <button class="diff-btn" data-diff="hard">Hard</button>
+            </div>
+
+            <p id="st-instruction" style="text-align: center; color: var(--text-secondary); margin: 10px 0;">
+                Click the button that matches the <strong>COLOR</strong> of the text, not the word!
+            </p>
+
+            <div class="stroop-display" id="st-display">
+                RED
+            </div>
+
+            <div class="stroop-options" id="st-options">
+                <button class="stroop-btn" style="background: #ef4444;">Red</button>
+                <button class="stroop-btn" style="background: #22c55e;">Green</button>
+                <button class="stroop-btn" style="background: #3b82f6;">Blue</button>
+                <button class="stroop-btn" style="background: #eab308;">Yellow</button>
+            </div>
+
+            <button class="start-btn" id="st-start" onclick="StroopTest.start()">Start Game</button>
+
+            <div class="game-message" id="st-message" style="display: none;">
+                <h2>Time's Up!</h2>
+                <div class="score" id="st-final-score">0</div>
+                <p>Points</p>
+                <p id="st-stats"></p>
+                <button class="restart-btn" onclick="StroopTest.start()">Play Again</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/games/stroop-test.js"></script>
+    <script>
+        function showGame(gameId) {
+            document.getElementById('game-selection').style.display = 'none';
+            document.getElementById(gameId + '-game').style.display = 'flex';
+        }
+
+        // Setup difficulty buttons
+        document.querySelectorAll('.difficulty-selector').forEach(selector => {
+            selector.querySelectorAll('.diff-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selector.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

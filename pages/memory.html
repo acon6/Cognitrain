@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Games - CogniTrain</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <a href="../index.html" class="back-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <h1 class="page-title">Memory Training</h1>
+        </header>
+
+        <!-- Game Selection -->
+        <section class="game-list" id="game-selection">
+            <div class="game-item" onclick="showGame('memory-match')">
+                <div class="game-info">
+                    <h3>Memory Match</h3>
+                    <p>Find matching pairs of cards</p>
+                </div>
+                <button class="play-btn">Play</button>
+            </div>
+
+            <div class="game-item" onclick="showGame('sequence-recall')">
+                <div class="game-info">
+                    <h3>Sequence Recall</h3>
+                    <p>Remember and repeat the sequence</p>
+                </div>
+                <button class="play-btn">Play</button>
+            </div>
+        </section>
+
+        <!-- Memory Match Game -->
+        <section class="game-container" id="memory-match-game" style="display: none;">
+            <div class="game-header">
+                <div class="game-stat">
+                    <span class="game-stat-value" id="mm-moves">0</span>
+                    <span class="game-stat-label">Moves</span>
+                </div>
+                <div class="game-stat">
+                    <span class="game-stat-value" id="mm-pairs">0/0</span>
+                    <span class="game-stat-label">Pairs</span>
+                </div>
+                <div class="game-stat">
+                    <span class="game-stat-value" id="mm-time">0:00</span>
+                    <span class="game-stat-label">Time</span>
+                </div>
+            </div>
+
+            <div class="difficulty-selector">
+                <button class="diff-btn active" data-diff="easy">Easy</button>
+                <button class="diff-btn" data-diff="medium">Medium</button>
+                <button class="diff-btn" data-diff="hard">Hard</button>
+            </div>
+
+            <div class="memory-grid easy" id="mm-grid"></div>
+
+            <button class="start-btn" id="mm-start" onclick="MemoryMatch.start()">Start Game</button>
+
+            <div class="game-message" id="mm-message" style="display: none;">
+                <h2>Great Job!</h2>
+                <div class="score" id="mm-final-score">0</div>
+                <p>Points</p>
+                <p id="mm-stats"></p>
+                <button class="restart-btn" onclick="MemoryMatch.start()">Play Again</button>
+            </div>
+        </section>
+
+        <!-- Sequence Recall Game -->
+        <section class="game-container" id="sequence-recall-game" style="display: none;">
+            <div class="game-header">
+                <div class="game-stat">
+                    <span class="game-stat-value" id="sr-level">1</span>
+                    <span class="game-stat-label">Level</span>
+                </div>
+                <div class="game-stat">
+                    <span class="game-stat-value" id="sr-score">0</span>
+                    <span class="game-stat-label">Score</span>
+                </div>
+                <div class="game-stat">
+                    <span class="game-stat-value" id="sr-best">0</span>
+                    <span class="game-stat-label">Best</span>
+                </div>
+            </div>
+
+            <div class="difficulty-selector" id="sr-difficulty">
+                <button class="diff-btn active" data-diff="easy">Easy</button>
+                <button class="diff-btn" data-diff="medium">Medium</button>
+                <button class="diff-btn" data-diff="hard">Hard</button>
+            </div>
+
+            <div class="sequence-display" id="sr-display"></div>
+            <div class="sequence-input" id="sr-input" style="display: none;"></div>
+
+            <p id="sr-instruction" style="text-align: center; color: var(--text-secondary); margin: 20px 0;">
+                Watch the sequence and repeat it!
+            </p>
+
+            <button class="start-btn" id="sr-start" onclick="SequenceRecall.start()">Start Game</button>
+
+            <div class="game-message" id="sr-message" style="display: none;">
+                <h2 id="sr-result-title">Game Over</h2>
+                <div class="score" id="sr-final-score">0</div>
+                <p>Points</p>
+                <p id="sr-stats"></p>
+                <button class="restart-btn" onclick="SequenceRecall.start()">Play Again</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/games/memory-match.js"></script>
+    <script src="../js/games/sequence-recall.js"></script>
+    <script>
+        function showGame(gameId) {
+            document.getElementById('game-selection').style.display = 'none';
+            document.getElementById(gameId + '-game').style.display = 'flex';
+        }
+
+        // Setup difficulty buttons for both games
+        document.querySelectorAll('.difficulty-selector').forEach(selector => {
+            selector.querySelectorAll('.diff-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selector.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

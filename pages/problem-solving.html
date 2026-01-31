@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Solving - CogniTrain</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <a href="../index.html" class="back-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <h1 class="page-title">Problem Solving</h1>
+        </header>
+
+        <!-- Game Selection -->
+        <section class="game-list" id="game-selection">
+            <div class="game-item" onclick="showGame('pattern-puzzle')">
+                <div class="game-info">
+                    <h3>Pattern Puzzle</h3>
+                    <p>Find the missing piece in the pattern</p>
+                </div>
+                <button class="play-btn">Play</button>
+            </div>
+        </section>
+
+        <!-- Pattern Puzzle Game -->
+        <section class="game-container" id="pattern-puzzle-game" style="display: none;">
+            <div class="game-header">
+                <div class="game-stat">
+                    <span class="game-stat-value" id="pp-level">1</span>
+                    <span class="game-stat-label">Level</span>
+                </div>
+                <div class="game-stat">
+                    <span class="game-stat-value" id="pp-score">0</span>
+                    <span class="game-stat-label">Score</span>
+                </div>
+                <div class="game-stat">
+                    <span class="game-stat-value" id="pp-streak">0</span>
+                    <span class="game-stat-label">Streak</span>
+                </div>
+            </div>
+
+            <div class="difficulty-selector" id="pp-difficulty">
+                <button class="diff-btn active" data-diff="easy">Easy</button>
+                <button class="diff-btn" data-diff="medium">Medium</button>
+                <button class="diff-btn" data-diff="hard">Hard</button>
+            </div>
+
+            <p id="pp-instruction" style="text-align: center; color: var(--text-secondary); margin: 10px 0;">
+                Find the pattern and select the missing piece!
+            </p>
+
+            <div class="pattern-grid" id="pp-grid"></div>
+
+            <div class="pattern-options" id="pp-options"></div>
+
+            <button class="start-btn" id="pp-start" onclick="PatternPuzzle.start()">Start Game</button>
+
+            <div class="game-message" id="pp-message" style="display: none;">
+                <h2 id="pp-result-title">Game Over</h2>
+                <div class="score" id="pp-final-score">0</div>
+                <p>Points</p>
+                <p id="pp-stats"></p>
+                <button class="restart-btn" onclick="PatternPuzzle.start()">Play Again</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/games/pattern-puzzle.js"></script>
+    <script>
+        function showGame(gameId) {
+            document.getElementById('game-selection').style.display = 'none';
+            document.getElementById(gameId + '-game').style.display = 'flex';
+        }
+
+        // Setup difficulty buttons
+        document.querySelectorAll('.difficulty-selector').forEach(selector => {
+            selector.querySelectorAll('.diff-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selector.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

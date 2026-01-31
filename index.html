@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CogniTrain - Brain Training App</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">CogniTrain</h1>
+            <p class="tagline">Train your brain daily</p>
+        </header>
+
+        <!-- Stats Bar -->
+        <section class="stats-bar">
+            <div class="stat">
+                <span class="stat-value" id="streak-count">0</span>
+                <span class="stat-label">Day Streak</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="today-exercises">0</span>
+                <span class="stat-label">Today</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="total-exercises">0</span>
+                <span class="stat-label">Total</span>
+            </div>
+        </section>
+
+        <!-- Daily Challenge -->
+        <section class="daily-challenge">
+            <h2>Daily Challenge</h2>
+            <p id="daily-suggestion">Complete one exercise from each category today!</p>
+        </section>
+
+        <!-- Category Cards -->
+        <section class="categories">
+            <h2>Choose a Category</h2>
+            <div class="category-grid">
+                <!-- Memory Card -->
+                <a href="pages/memory.html" class="category-card memory">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        </svg>
+                    </div>
+                    <h3>Memory</h3>
+                    <p>Card matching & sequence recall</p>
+                    <span class="card-games">2 games</span>
+                </a>
+
+                <!-- Attention Card -->
+                <a href="pages/attention.html" class="category-card attention">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="6"/>
+                            <circle cx="12" cy="12" r="2"/>
+                        </svg>
+                    </div>
+                    <h3>Attention</h3>
+                    <p>Focus & concentration training</p>
+                    <span class="card-games">1 game</span>
+                </a>
+
+                <!-- Problem Solving Card -->
+                <a href="pages/problem-solving.html" class="category-card problem-solving">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Problem Solving</h3>
+                    <p>Logic & pattern recognition</p>
+                    <span class="card-games">1 game</span>
+                </a>
+
+                <!-- Progress Card -->
+                <a href="pages/progress.html" class="category-card progress">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 20V10"/>
+                            <path d="M12 20V4"/>
+                            <path d="M6 20v-6"/>
+                        </svg>
+                    </div>
+                    <h3>Progress</h3>
+                    <p>View your stats & history</p>
+                    <span class="card-games">Track growth</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Train consistently for best results</p>
+        </footer>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
