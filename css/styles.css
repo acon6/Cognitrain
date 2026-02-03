@@ -491,6 +491,69 @@ body {
     opacity: 0.9;
 }
 
+/* Flanker Task */
+.flanker-display {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 40px 0;
+    letter-spacing: 0.5rem;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+}
+
+.flanker-display.fixation {
+    font-size: 3rem;
+    color: var(--text-muted);
+    letter-spacing: 0;
+}
+
+.flanker-display.arrows {
+    color: var(--attention-color);
+}
+
+.flanker-options {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.flanker-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 40px;
+    border: 2px solid var(--attention-color);
+    background: transparent;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-primary);
+}
+
+.flanker-btn:hover {
+    background: rgba(6, 182, 212, 0.2);
+    transform: scale(1.05);
+}
+
+.flanker-btn .arrow {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--attention-color);
+}
+
+.flanker-btn .label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 /* Pattern Puzzle */
 .pattern-grid {
     display: grid;
@@ -653,6 +716,19 @@ body {
 
     .stroop-display {
         font-size: 2.5rem;
+    }
+
+    .flanker-display {
+        font-size: 2.5rem;
+        letter-spacing: 0.3rem;
+    }
+
+    .flanker-btn {
+        padding: 15px 30px;
+    }
+
+    .flanker-btn .arrow {
+        font-size: 2rem;
     }
 }
 

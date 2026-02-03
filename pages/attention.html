@@ -27,6 +27,13 @@
                 </div>
                 <button class="play-btn">Play</button>
             </div>
+            <div class="game-item" onclick="showGame('flanker-task')">
+                <div class="game-info">
+                    <h3>Flanker Task</h3>
+                    <p>Focus on the center arrow, ignore distractions</p>
+                </div>
+                <button class="play-btn">Play</button>
+            </div>
         </section>
 
         <!-- Stroop Test Game -->
@@ -77,10 +84,64 @@
                 <button class="restart-btn" onclick="StroopTest.start()">Play Again</button>
             </div>
         </section>
+
+        <!-- Flanker Task Game -->
+        <section class="game-container" id="flanker-task-game" style="display: none;">
+            <div class="game-header">
+                <div class="game-stat">
+                    <span class="game-stat-value" id="ft-correct">0</span>
+                    <span class="game-stat-label">Correct</span>
+                </div>
+                <div class="game-stat">
+                    <span class="game-stat-value" id="ft-round">0/25</span>
+                    <span class="game-stat-label">Round</span>
+                </div>
+                <div class="game-stat">
+                    <span class="game-stat-value" id="ft-time">30</span>
+                    <span class="game-stat-label">Seconds</span>
+                </div>
+            </div>
+
+            <div class="difficulty-selector" id="ft-difficulty">
+                <button class="diff-btn active" data-diff="easy">Easy</button>
+                <button class="diff-btn" data-diff="medium">Medium</button>
+                <button class="diff-btn" data-diff="hard">Hard</button>
+            </div>
+
+            <p id="ft-instruction" style="text-align: center; color: var(--text-secondary); margin: 10px 0;">
+                Click the direction of the <strong>CENTER</strong> arrow. Ignore the surrounding arrows!
+            </p>
+
+            <div class="flanker-display" id="ft-display">
+                → → → → →
+            </div>
+
+            <div class="flanker-options" id="ft-options">
+                <button class="flanker-btn" id="ft-left-btn">
+                    <span class="arrow">←</span>
+                    <span class="label">Left</span>
+                </button>
+                <button class="flanker-btn" id="ft-right-btn">
+                    <span class="arrow">→</span>
+                    <span class="label">Right</span>
+                </button>
+            </div>
+
+            <button class="start-btn" id="ft-start" onclick="FlankerTask.start()">Start Game</button>
+
+            <div class="game-message" id="ft-message" style="display: none;">
+                <h2>Time's Up!</h2>
+                <div class="score" id="ft-final-score">0</div>
+                <p>Points</p>
+                <p id="ft-stats" style="white-space: pre-line;"></p>
+                <button class="restart-btn" onclick="FlankerTask.start()">Play Again</button>
+            </div>
+        </section>
     </div>
 
     <script src="../js/storage.js"></script>
     <script src="../js/games/stroop-test.js"></script>
+    <script src="../js/games/flanker-task.js"></script>
     <script>
         function showGame(gameId) {
             document.getElementById('game-selection').style.display = 'none';
